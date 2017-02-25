@@ -14,8 +14,8 @@ export class UsersComponent implements OnInit {
     //NOT IS USE
     users; // <-- NOt IN USE!
 
-    newUsers;
-    // usersMDB = new UsersMDB(); <-- Testing not in use A.T.M
+    newUsers: any[];
+    usersMDB = new UsersMDB();
 
     constructor(private _userService: UsersService, private _router: Router) {
         // Not good structure to but in constructor

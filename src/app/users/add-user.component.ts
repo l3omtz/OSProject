@@ -20,7 +20,7 @@ import { EmailValidator } from "./emailVal";
 export class AddUserComponent implements OnInit {
     id;
     titleUser: string;
-    user = new UsersMDB;
+    user = new UsersMDB();
     // user: any;
     form: FormGroup;
 
@@ -70,6 +70,7 @@ export class AddUserComponent implements OnInit {
         // console.log(this.form.value);
 
         let result;
+        this.user.name = this.form.value.name;
 
         if (this.user.id) {
             result = this._userService.updateUser(this.user);
@@ -81,7 +82,7 @@ export class AddUserComponent implements OnInit {
             this.user = addedUser;
             // this.form.markAsPristine();
 
-            console.log(this.form.value);
+            console.log(this.form.value.name);
             console.log(this.user);
             console.log(modal);
 

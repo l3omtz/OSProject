@@ -10,11 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { UsersService } from './users.service';
 import { Router } from '@angular/router';
+import { UsersMDB } from './users';
 var UsersComponent = (function () {
     function UsersComponent(_userService, _router) {
         var _this = this;
         this._userService = _userService;
         this._router = _router;
+        this.usersMDB = new UsersMDB();
         this.btnClick = function () {
             this._router.navigate(['users/adduser']);
         };

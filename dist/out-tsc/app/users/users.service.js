@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -34,7 +34,9 @@ var UsersService = (function () {
     };
     UsersService.prototype.addUser = function (user) {
         var body = JSON.stringify(user);
-        return this._http.post(this._localUserDB, body)
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json ; charset=uft-8');
+        return this._http.post(this._localUserDB, body, headers)
             .map(function (res) { res.json(), console.log(res.json()); });
     };
     UsersService.prototype.deleteUser = function (userId) {

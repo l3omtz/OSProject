@@ -19,7 +19,7 @@ var AddUserComponent = (function () {
         this._userService = _userService;
         this._router = _router;
         this._route = _route;
-        this.user = new UsersMDB;
+        this.user = new UsersMDB();
         this.form = fb.group({
             email: ['', Validators.compose([
                     Validators.required,
@@ -52,6 +52,7 @@ var AddUserComponent = (function () {
     AddUserComponent.prototype.addUser = function (modal) {
         var _this = this;
         var result;
+        this.user.name = this.form.value.name;
         if (this.user.id) {
             result = this._userService.updateUser(this.user);
         }
@@ -60,7 +61,7 @@ var AddUserComponent = (function () {
         }
         result.subscribe(function (addedUser) {
             _this.user = addedUser;
-            console.log(_this.form.value);
+            console.log(_this.form.value.name);
             console.log(_this.user);
             console.log(modal);
         });

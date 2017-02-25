@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response} from '@angular/http';
+import { Http, Response, Headers} from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -40,7 +40,9 @@ export class UsersService {
     addUser(user) {
         // var userModel = new UsersMDB();   // <-- Same result >:/
         let body = JSON.stringify(user);
-        return this._http.post(this._localUserDB, body)
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json ; charset=uft-8');
+        return this._http.post(this._localUserDB, body, headers)
             .map((res: Response) => { res.json(), console.log(res.json()); });
 	   }
 
