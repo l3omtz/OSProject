@@ -1,0 +1,75 @@
+<div class="col-md-8 col-md-offset-2">
+  <div class="col-md-12">
+    <!-- Header  -->
+    <h1 class="col-md-12">{{titleUser}}</h1>
+  </div>
+  <!-- Form  -->
+  <form class="col-md-12" [formGroup]="form" (ngSubmit)="addUser()">
+    <fieldset>
+      <div class="form-group col-md-12">
+        <input type="text"
+          class="form-control"
+          id="name"
+          formControlName="name"
+          placeholder="Name">
+          <!-- Display Error Alert  -->
+          <div *ngIf="form.controls.name.touched && form.controls.name.errors">
+            <div class="alert alert-danger" *ngIf="form.controls.name.errors.required">
+              Name is required
+            </div>
+          </div>
+      </div>
+      <div class="form-group col-md-12">
+        <input type="text"
+          class="form-control"
+          id="email"
+          formControlName="email"
+          placeholder="Email">
+          <!-- Display Error Alert  -->
+          <div *ngIf="form.controls.email.touched && form.controls.email.errors">
+            <div class="alert alert-danger" *ngIf="form.controls.email.errors.required || !form.controls.email.errors.emailValidate">
+              Enter Valid Email
+            </div>
+          </div>
+      </div>
+      <div class="form-group col-md-12">
+        <input type="tel"
+          class="form-control"
+          id="phone"
+          placeholder="Phone"
+          formControlName="phone">
+      </div>
+    </fieldset>
+    <fieldset>
+      <div class="form-group col-md-6">
+        <input type="text"
+          class="form-control"
+          id="street"
+          placeholder="Street"
+          formControlName="street">
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text"
+          class="form-control"
+          id="suite"
+          placeholder="Suite"
+          formControlName="suite">
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="City" formControlName="city">
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text"
+          class="form-control"
+          id="zip"
+          formControlName="zip"
+          placeholder="Zip">
+      </div>
+    </fieldset>
+
+    <fieldset class="col-md-2">
+      <button type="submit" name="button" class="btn btn-default"
+      [disabled]="!form.valid">Submit</button> <!-- If form isn't Valid disable button -->
+    </fieldset>
+  </form>
+</div>
