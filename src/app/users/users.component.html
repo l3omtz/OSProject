@@ -17,11 +17,10 @@
     <!-- Local Table Info -->
     <tbody *ngFor="let user of newUsers">
       <tr>
-        <td>{{this.user.id}}</td>
         <td>{{this.user.name}}</td>
         <td>{{this.user.email}}</td>
-        <td><i class="fa fa-pencil" aria-hidden="true"></i></td>
-        <td><i class="fa fa-times" aria-hidden="true" (click)="deleteUser(user)"></i></td>
+        <td><a><i class="fa fa-pencil" aria-hidden="true" (click)="editUser(user)"></i></a></td>
+        <td><i class="fa fa-times clickable" aria-hidden="true" (click)="deleteUser(user)"></i></td>
       </tr>
     </tbody>
     <!-- Server Table Info -->

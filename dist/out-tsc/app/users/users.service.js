@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -19,9 +19,13 @@ var UsersService = (function () {
         this._http = _http;
         this._UserUrl = "http://jsonplaceholder.typicode.com/users";
         this._localUserDB = "http://localhost:3000/user";
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
     }
     UsersService.prototype.getUserUrl = function (userId) {
         return this._localUserDB + "/" + userId;
+    };
+    UsersService.prototype.postUserUrl = function () {
+        return this._localUserDB;
     };
     UsersService.prototype.getLocalUsers = function () {
         return this._http.get(this._localUserDB)
@@ -33,19 +37,22 @@ var UsersService = (function () {
             .map(function (res) { return res.json(); });
     };
     UsersService.prototype.addUser = function (user) {
-        var body = JSON.stringify(user);
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json ; charset=uft-8');
-        return this._http.post(this._localUserDB, body, headers)
-            .map(function (res) { res.json(), console.log(res.json()); });
+        var headers = new Headers({ 'Content-Type': 'application/json' });
+        var options = new RequestOptions({ headers: headers });
+        return this._http.post(this._localUserDB, JSON.stringify(user), options)
+            .map(function (res) { return res.json(); })
+            .catch(function (error) { return Observable.throw(error.json().error || 'Server error'); });
     };
     UsersService.prototype.deleteUser = function (userId) {
-        return this._http.delete(this.getUserUrl(userId))
+        return this._http.delete(this.getUserUrl(userId), { headers: this.headers })
             .map(function (res) { return res.json(); });
     };
     UsersService.prototype.updateUser = function (user) {
-        return this._http.put(this.getUserUrl(user.id), JSON.stringify(user))
-            .map(function (res) { return res.json(); });
+        return this._http.put(this.getUserUrl(user.id), JSON.stringify(user), { headers: this.headers })
+            .map(function (res) {
+            res.json(),
+                console.log(res.json());
+        });
     };
     UsersService.prototype.getUsers = function () {
         return this._http.get(this._UserUrl)

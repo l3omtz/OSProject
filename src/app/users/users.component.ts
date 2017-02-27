@@ -15,7 +15,6 @@ export class UsersComponent implements OnInit {
     users; // <-- NOt IN USE!
 
     newUsers: any[];
-    usersMDB = new UsersMDB();
 
     constructor(private _userService: UsersService, private _router: Router) {
         // Not good structure to but in constructor
@@ -30,8 +29,7 @@ export class UsersComponent implements OnInit {
     getUsers() {
         this._userService.getLocalUsers()
             .subscribe(
-            localUser => this.newUsers = localUser,
-            // localUser => console.log(localUser),
+            localUser => { this.newUsers = localUser, console.log(this.newUsers) },
             response => {
                 if (response.status == 404) {
                     this._router.navigate(['NotFound']);
@@ -42,6 +40,10 @@ export class UsersComponent implements OnInit {
     ngOnInit() {
         // Would want services that calls an API in OnInit Method
         this.getUsers();
+    }
+
+    editUser(user) {
+        this._router.navigate(['/users', user.id]);
     }
 
     deleteUser(user) {

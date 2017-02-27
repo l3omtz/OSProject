@@ -4,10 +4,10 @@
     <h1 class="col-md-12">{{titleUser}}</h1>
   </div>
   <!-- Form  -->
-  <form class="col-md-12" [formGroup]="form" (ngSubmit)="addUser()">
+  <form class="col-md-12" [formGroup]="form" (ngSubmit)="addUser(form.value)">
     <fieldset>
       <div class="form-group col-md-12">
-        <input type="text"
+        <input type="text" [(ngModel)]="user.name" name="name" #name
           class="form-control"
           id="name"
           formControlName="name"
@@ -20,7 +20,7 @@
           </div>
       </div>
       <div class="form-group col-md-12">
-        <input type="text"
+        <input type="text" [(ngModel)]="user.email" name="email" #email
           class="form-control"
           id="email"
           formControlName="email"
@@ -33,33 +33,38 @@
           </div>
       </div>
       <div class="form-group col-md-12">
-        <input type="tel"
+        <input type="tel" [(ngModel)]="user.phone" name="phone" #phone
           class="form-control"
           id="phone"
           placeholder="Phone"
           formControlName="phone">
       </div>
     </fieldset>
-    <fieldset>
+    <fieldset formGroupName="address">
       <div class="form-group col-md-6">
-        <input type="text"
+        <input type="text" [(ngModel)]="user.address.street" name="street" #street
           class="form-control"
           id="street"
           placeholder="Street"
           formControlName="street">
       </div>
       <div class="form-group col-md-6">
-        <input type="text"
+        <input type="text" [(ngModel)]="user.address.suite" name="suite" #suite
           class="form-control"
           id="suite"
+          name="suite"
           placeholder="Suite"
           formControlName="suite">
       </div>
       <div class="form-group col-md-6">
-        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="City" formControlName="city">
+        <input type="text" [(ngModel)]="user.address.city" name="city" #city
+          class="form-control"
+          id="exampleInputEmail1"
+          placeholder="City"
+          formControlName="city">
       </div>
       <div class="form-group col-md-6">
-        <input type="text"
+        <input type="text" [(ngModel)]="user.address.zip" name="zip" #zip
           class="form-control"
           id="zip"
           formControlName="zip"

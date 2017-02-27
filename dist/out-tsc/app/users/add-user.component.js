@@ -21,17 +21,19 @@ var AddUserComponent = (function () {
         this._route = _route;
         this.user = new UsersMDB();
         this.form = fb.group({
-            email: ['', Validators.compose([
+            email: [, Validators.compose([
                     Validators.required,
                     EmailValidator.emailValidate
                 ])
             ],
-            name: ['', Validators.required],
+            name: [, Validators.required],
             phone: [],
-            street: [],
-            suite: [],
-            city: [],
-            zip: ['', Validators.required]
+            address: fb.group({
+                street: [],
+                suite: [],
+                city: [],
+                zip: []
+            })
         });
     }
     AddUserComponent.prototype.ngOnInit = function () {
@@ -42,9 +44,13 @@ var AddUserComponent = (function () {
             if (!id)
                 return;
             _this._userService.getUser(id)
-                .subscribe(function (user) { return _this.user = user; }, function (response) {
+                .subscribe(function (user) {
+                _this.user = user,
+                    console.log(_this.user);
+            }, function (response) {
                 if (response.status == 404) {
-                    _this._router.navigate(['NotFound']);
+                    console.log("error"),
+                        _this._router.navigate(['NotFound']);
                 }
             });
         });
@@ -52,18 +58,15 @@ var AddUserComponent = (function () {
     AddUserComponent.prototype.addUser = function (modal) {
         var _this = this;
         var result;
-        this.user.name = this.form.value.name;
         if (this.user.id) {
             result = this._userService.updateUser(this.user);
         }
         else {
             result = this._userService.addUser(modal);
         }
-        result.subscribe(function (addedUser) {
-            _this.user = addedUser;
-            console.log(_this.form.value.name);
-            console.log(_this.user);
-            console.log(modal);
+        result.subscribe(function (reset) {
+            _this.form.markAsPristine();
+            _this._router.navigate(['users']);
         });
     };
     return AddUserComponent;
@@ -72,7 +75,10 @@ AddUserComponent = __decorate([
     Component({
         templateUrl: 'add-user.component.html'
     }),
-    __metadata("design:paramtypes", [UsersService, Router, ActivatedRoute, FormBuilder])
+    __metadata("design:paramtypes", [UsersService,
+        Router,
+        ActivatedRoute,
+        FormBuilder])
 ], AddUserComponent);
 export { AddUserComponent };
 //# sourceMappingURL=../../../../src/app/users/add-user.component.js.map

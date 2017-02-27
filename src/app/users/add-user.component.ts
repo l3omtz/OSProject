@@ -21,26 +21,32 @@ export class AddUserComponent implements OnInit {
     id;
     titleUser: string;
     user = new UsersMDB();
-    // user: any;
     form: FormGroup;
 
     //Make private so wont effect other routs
     // Create instance of FormBuilder
-    constructor(private _userService: UsersService, private _router: Router, private _route: ActivatedRoute, fb: FormBuilder) {
+    constructor(
+        private _userService: UsersService,
+        private _router: Router,
+        private _route: ActivatedRoute,
+        fb: FormBuilder) {
         //Model Driven Form
         this.form = fb.group({
             //Validators for each input
             // Use compose for custom Validators
-            email: ['', Validators.compose([
+
+            email: [, Validators.compose([
                 Validators.required,
                 EmailValidator.emailValidate])
             ],
-            name: ['', Validators.required],
+            name: [, Validators.required],
             phone: [],
-            street: [],
-            suite: [],
-            city: [],
-            zip: ['', Validators.required]
+            address: fb.group({
+                street: [],
+                suite: [],
+                city: [],
+                zip: []
+            })
         })
     }
 
@@ -55,38 +61,34 @@ export class AddUserComponent implements OnInit {
 
             this._userService.getUser(id)
                 .subscribe(
-                user => this.user = user,
+                user => {
+                    this.user = user,
+                        console.log(this.user)
+                },
                 response => {
                     if (response.status == 404) {
-                        this._router.navigate(['NotFound']);
+                        console.log("error"),
+                            this._router.navigate(['NotFound']);
                     }
                 });
         });
     }
 
-
     // When Submit button is click log form details in Jsoon
     addUser(modal: UsersMDB) {
-        // console.log(this.form.value);
 
         let result;
-        this.user.name = this.form.value.name;
 
         if (this.user.id) {
             result = this._userService.updateUser(this.user);
+
         }
         else {
             result = this._userService.addUser(modal);
         }
-        result.subscribe(addedUser => {
-            this.user = addedUser;
-            // this.form.markAsPristine();
-
-            console.log(this.form.value.name);
-            console.log(this.user);
-            console.log(modal);
-
-            // this._router.navigate(['users']);
+        result.subscribe(reset => {
+            this.form.markAsPristine();
+            this._router.navigate(['users']);
         });
     }
 }

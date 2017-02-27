@@ -10,13 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { UsersService } from './users.service';
 import { Router } from '@angular/router';
-import { UsersMDB } from './users';
 var UsersComponent = (function () {
     function UsersComponent(_userService, _router) {
         var _this = this;
         this._userService = _userService;
         this._router = _router;
-        this.usersMDB = new UsersMDB();
         this.btnClick = function () {
             this._router.navigate(['users/adduser']);
         };
@@ -26,7 +24,7 @@ var UsersComponent = (function () {
     UsersComponent.prototype.getUsers = function () {
         var _this = this;
         this._userService.getLocalUsers()
-            .subscribe(function (localUser) { return _this.newUsers = localUser; }, function (response) {
+            .subscribe(function (localUser) { _this.newUsers = localUser, console.log(_this.newUsers); }, function (response) {
             if (response.status == 404) {
                 _this._router.navigate(['NotFound']);
             }
@@ -34,6 +32,9 @@ var UsersComponent = (function () {
     };
     UsersComponent.prototype.ngOnInit = function () {
         this.getUsers();
+    };
+    UsersComponent.prototype.editUser = function (user) {
+        this._router.navigate(['/users', user.id]);
     };
     UsersComponent.prototype.deleteUser = function (user) {
         var _this = this;

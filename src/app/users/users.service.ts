@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers} from '@angular/http';
+import { Http, Response, Headers, RequestOptions} from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -16,12 +16,17 @@ export class UsersService {
 
     private _UserUrl = "http://jsonplaceholder.typicode.com/users"; // BOO
     private _localUserDB = "http://localhost:3000/user";
+    private headers = new Headers({ 'Content-Type': 'application/json' });
+
 
     constructor(private _http: Http) { }
 
     // To get individual user data
     private getUserUrl(userId) {
         return this._localUserDB + "/" + userId;
+    }
+    private postUserUrl() {
+        return this._localUserDB;
     }
 
     /* ---
@@ -36,28 +41,34 @@ export class UsersService {
     getUser(userId) {
         return this._http.get(this.getUserUrl(userId))
             .map(res => res.json());
+
     }
     addUser(user) {
-        // var userModel = new UsersMDB();   // <-- Same result >:/
-        let body = JSON.stringify(user);
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json ; charset=uft-8');
-        return this._http.post(this._localUserDB, body, headers)
-            .map((res: Response) => { res.json(), console.log(res.json()); });
+        let headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+        let options = new RequestOptions({ headers: headers }); // Create a request option
+
+
+        return this._http.post(this._localUserDB, JSON.stringify(user), options) // ...using post request
+            .map((res: Response) => res.json()) // ...and calling .json() on the response to return data
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error')); //...errors if any
 	   }
 
     deleteUser(userId) {
-        return this._http.delete(this.getUserUrl(userId))
+
+
+        return this._http.delete(this.getUserUrl(userId), { headers: this.headers })
             .map(res => res.json());
 
     }
 
     updateUser(user) {
-        return this._http.put(this.getUserUrl(user.id), JSON.stringify(user))
-            .map(res => res.json());
+
+        return this._http.put(this.getUserUrl(user.id), JSON.stringify(user), { headers: this.headers })
+            .map((res: Response) => {
+                res.json(),
+                    console.log(res.json())
+            });
     }
-
-
 
     // Server Side DB --- Not in use
     getUsers() {

@@ -10,5 +10,6 @@ import { PreventUnsavedChanges } from './prevent-unsaved-guard.service';
 // EXPORT THEM WITH PATH TO USE OUTSIDE UUNIVERSAL
 export const UsersRouting = RouterModule.forChild([
     { path: 'users', component: UsersComponent },
-    { path: 'users/adduser', component: AddUserComponent, canDeactivate: [PreventUnsavedChanges] }
+    { path: 'users/adduser', component: AddUserComponent, canDeactivate: [PreventUnsavedChanges] },
+    { path: 'users/:id', component: AddUserComponent }
 ]);
