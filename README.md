@@ -1,6 +1,18 @@
-# OpProject
+# Ordering System
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.19-3.
+A NodeJS backend API to be consumed into your Orders front end! Out of the box, you get: INDEX, CREATE, SHOW, UPDATE, and DELETE endpoints.
+
+For restraunts that have bad UI systems this is build with Bootstrap so you'll get a wonderful experiacne. 
+Add, create, delete and even edit orders has never been so simple! 
+
+
+## Built With
+* [MongoDB](https://www.mongodb.com/)
+* [Express](https://expressjs.com/)
+* [Angular](https://angular.io/)
+* [NodeJS](https://nodejs.org/en/)
+
+* [mLab](https://mlab.com/)
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
